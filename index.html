@@ -206,7 +206,7 @@
         <div class="legend"><span><i style="background:#C99A4E"></i>resep tersedia</span><span><i style="background:#D8C7AE"></i>resep belum ada</span></div>
       </footer>
     </section>
-    <section id="forecast-view" class="view" style="display:none">
+    <section id="forecast-view" class="view">
       <div class="fc-intro">Isi perkiraan <b>jumlah porsi terjual</b> tiap menu. <b>Air tidak dihitung</b>.</div>
       <div id="fc-list"></div>
       <div class="fc-actions"><button class="fc-btn reset" id="fc-reset">Reset semua</button></div>
@@ -302,8 +302,8 @@ async function loadApp(email,token){
   try{
     var r=await apiCall({action:'getData',email:email,token:token});
     if(!r.ok){clearSession();alert('Session error: '+r.error);show('page-login');return;}
-    buildApp(r.data);
     show('page-app');
+    buildApp(r.data);
   }catch(e){clearSession();alert('Load error: '+e.message);show('page-login');}
 }
 
@@ -341,13 +341,14 @@ function buildApp(raw){
   window._APP={RECIPES:RECIPES_LOCAL,STRUCTURE:STRUCTURE,IMAGES:IMAGES,INTER:INTER_USE,packMap:packMap,servMap:servMap,ALIAS:ALIAS};
   renderMenu();
   renderForecasting();
-  // setup tab listeners here so elements are visible
-  document.querySelectorAll('.tab').forEach(function(t){
+  // setup tab listeners - scoped to page-app
+  var appEl = document.getElementById('page-app');
+  appEl.querySelectorAll('.tab').forEach(function(t){
     t.addEventListener('click',function(){
-      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
-      document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active');});
+      appEl.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+      appEl.querySelectorAll('.view').forEach(function(x){x.classList.remove('active');});
       t.classList.add('active');
-      document.getElementById(t.dataset.view).classList.add('active');
+      appEl.querySelector('#'+t.dataset.view).classList.add('active');
       window.scrollTo({top:0,behavior:'smooth'});
     });
   });
