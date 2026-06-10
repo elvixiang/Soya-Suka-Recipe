@@ -341,6 +341,16 @@ function buildApp(raw){
   window._APP={RECIPES:RECIPES_LOCAL,STRUCTURE:STRUCTURE,IMAGES:IMAGES,INTER:INTER_USE,packMap:packMap,servMap:servMap,ALIAS:ALIAS};
   renderMenu();
   renderForecasting();
+  // setup tab listeners here so elements are visible
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+      document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active');});
+      t.classList.add('active');
+      document.getElementById(t.dataset.view).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
 }
 
 function fmt(n){return Math.round(n).toLocaleString('id-ID');}
@@ -396,8 +406,6 @@ function closeModal(){document.getElementById('backdrop').classList.remove('show
 document.getElementById('m-close').addEventListener('click',closeModal);
 document.getElementById('backdrop').addEventListener('click',function(e){if(e.target===document.getElementById('backdrop'))closeModal();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
-
-document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active');});t.classList.add('active');document.getElementById(t.dataset.view).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});});});
 
 document.getElementById('logout-btn').addEventListener('click',function(){clearSession();show('page-login');document.getElementById('inp-email').value='';document.getElementById('inp-otp').value='';document.getElementById('login-msg1').className='login-msg';document.getElementById('login-msg2').className='login-msg';});
 
