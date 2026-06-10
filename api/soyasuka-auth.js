@@ -2,7 +2,7 @@
 // Vercel serverless proxy — handle CORS antara HTML dan Apps Script
 // Taruh file ini di: /api/soyasuka-auth.js di repo Vercel kamu
 
-const APPS_SCRIPT_URL = 'GANTI_DENGAN_URL_APPS_SCRIPT_KAMU';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynxxiM9XvA2fYWQJa9xyKOtFwAWCoAignnLgDmKKul6-CBxeFpNITO4g68P-L6V1XY/exec';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
